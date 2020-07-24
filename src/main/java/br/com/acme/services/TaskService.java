@@ -15,6 +15,9 @@ import javassist.tools.rmi.ObjectNotFoundException;
 @Service
 public class TaskService {
 
+	private static final String ERRO_ITEM_NAO_ENCONTRADO = "Item não encontrado";
+	private static final String ERRO_TAREFA_NAO_ENCONTRADA = "Tarefa não encontrada";
+
 	@Autowired
 	private TaskRepository taskRepository;
 	
@@ -28,7 +31,7 @@ public class TaskService {
 	public Task find(Long id) throws ObjectNotFoundException {
 		Optional<Task> task = taskRepository.findById(id);
 		
-		return task.orElseThrow(() -> new ObjectNotFoundException("Tarefa não encontrada"));
+		return task.orElseThrow(() -> new ObjectNotFoundException(ERRO_TAREFA_NAO_ENCONTRADA));
 	}
 	
 	public Task insert(Task task) {
@@ -43,7 +46,6 @@ public class TaskService {
 		return taskRepository.save(task);
 	}
 
-		
 	public void delete(Long id) throws ObjectNotFoundException {
 		Task task = find(id);
 		
@@ -57,7 +59,7 @@ public class TaskService {
 	public TaskItem findItem(Long id) throws ObjectNotFoundException {
 		Optional<TaskItem> taskItem =  taskItemRepository.findById(id);
 		
-		return taskItem.orElseThrow(() -> new ObjectNotFoundException("Item não encontrado"));
+		return taskItem.orElseThrow(() -> new ObjectNotFoundException(ERRO_ITEM_NAO_ENCONTRADO));
 	}
 	
 	public Task insertItem(Task task, TaskItem taskItem) {
